@@ -20,4 +20,18 @@ module.exports = function (app) {
       res.json(db);
     });
   });
+
+  // To delete notes
+  app.delete("/api/notes/:id", function (req, res) {
+    const id = req.params.id;
+
+    db.splice(id - 1, 1);
+    db.forEach((obj, i) => {
+      obj.id = i + 1
+    });
+
+    fs.writeFile("./db/db.json", JSON.stringify(db), function () {
+      res.json(db);
+    });
+  });
 };
